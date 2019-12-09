@@ -2,8 +2,12 @@ package com.jtl.controller;
 
 import com.jtl.domain.User;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.support.SessionStatus;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.Map;
 
@@ -14,6 +18,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/anno")
+@SessionAttributes(value = {"msg"}) //把msg=陆星林又存入到session这个域对象中，request有session也有
 public class AnnoController {
 
     @RequestMapping("/testRequestParam")
@@ -106,4 +111,47 @@ public class AnnoController {
         user.setDate(new Date());
         return user;
     }*/
+
+
+    /**
+     * SessionAttributes 注解
+     *
+     * @return
+     */
+    @RequestMapping("/testSessionAttributes")
+    public String testSessionAttributes(Model model) {
+        System.out.println("execute testSessionAttributes...");
+        //底层会存储到request域对象中，以后再也不用写request
+        model.addAttribute("msg", "陆星林");
+        return "success";
+    }
+
+    /**
+     * 从session域中获取值
+     *
+     * @param modelMap
+     * @return
+     */
+    @RequestMapping("/getSessionAttributes")
+    public String getSessionAttributes(ModelMap modelMap) {
+        System.out.println("execute getSessionAttributes...");
+        //这里不能用Moder因为它是个接口没有get方法，真正运行的肯定是它的实现类ModelMap
+        String msg = (String) modelMap.get("msg");
+        System.out.println(msg);
+        return "success";
+    }
+
+    /**
+     * 从session域中清除值
+     *
+     * @param status
+     * @return
+     */
+    @RequestMapping("/delSessionAttributes")
+    public String delSessionAttributes(SessionStatus status) {
+        System.out.println("execute delSessionAttributes...");
+        //重置session对象
+        status.setComplete();
+        return "success";
+    }
 }
