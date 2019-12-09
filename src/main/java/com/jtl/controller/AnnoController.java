@@ -18,7 +18,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/anno")
-@SessionAttributes(value = {"msg"}) //把msg=陆星林又存入到session这个域对象中，request有session也有
+@SessionAttributes(value = {"msg"}) //把msg=JTL又存入到session这个域对象中，request有session也有
 public class AnnoController {
 
     @RequestMapping("/testRequestParam")
@@ -122,7 +122,7 @@ public class AnnoController {
     public String testSessionAttributes(Model model) {
         System.out.println("execute testSessionAttributes...");
         //底层会存储到request域对象中，以后再也不用写request
-        model.addAttribute("msg", "陆星林");
+        model.addAttribute("msg", "JTL");
         return "success";
     }
 
